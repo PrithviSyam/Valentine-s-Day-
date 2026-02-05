@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Unnima ❤️</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            /* High-Contrast Light Theme */
+            --bg-color: #fff0f6;
+            --card-bg: #ffffff;
+            --text-main: #2d0a15;
+            --text-highlight: #c2185b;
+            --btn-yes-bg: #d81b60;
+            --btn-yes-shadow: rgba(216, 27, 96, 0.4);
+            --btn-no-bg: #eceff1;
+            --btn-no-text: #455a64;
+            --overlay-bg: #fff5f8;
+            --heart-color: #ffc1e3;
+            --poem-text: #1a050d;
+            --mood-bg: #f8bbd0;
+            
+            --rose-deep: #9b111e;
+            --rose-mid: #d81b60;
+            --rose-light: #f48fb1;
+            --stem-color: #2e7d32;
+            
+            --note-bg: #ffffff;
+            --note-lines: rgba(194, 24, 91, 0.15);
+        }
+
+        /* High-Contrast Dark Theme */
+        [data-theme="dark"] {
+            --bg-color: #120207;
+            --card-bg: #1a050d;
+            --text-main: #fce4ec;
+            --text-highlight: #ff8fa3;
+            --btn-no-bg: #2d0a15;
+            --btn-no-text: #cfd8dc;
+            --overlay-bg: #0f0206;
+            --heart-color: #4a1e32;
+            --poem-text: #ffffff;
+            --note-bg: #2d0a15;
+            --note-lines: rgba(255, 143, 163, 0.2);
+        }
+
+        /* Mood Overrides - Fixed logic to ensure they work over themes */
+        body.mood-missing { --bg-color: #e0f2f1; --mood-bg: #b2dfdb; --heart-color: #80cbc4; --text-highlight: #00796b; }
+        body.mood-happy { --bg-color: #fffde7; --mood-bg: #fff9c4; --heart-color: #fff176; --text-highlight: #f57f17; }
+        body.mood-sleepy { --bg-color: #0d1117; --mood-bg: #161b22; --heart-color: #30363d; --text-main: #c9d1d9; --text-highlight: #58a6ff; }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Playfair Display', serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            transition: background 0.5s ease, color 0.5s ease;
+            min-height: 100vh;
+            overflow-y: auto; 
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 10px;
+        }
+
+        .background-hearts { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+        .bg-heart { position: absolute; color: var(--heart-color); opacity: 0.6; animation: floatUp 12s linear infinite; }
+        
+        @keyframes floatUp {
+            0% { transform: translateY(110vh) scale(0.5); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+        }
+
+        .theme-toggle { 
+            position: fixed; top: 20px; right: 20px; 
+            background: var(--card-bg); 
+            border: 2px solid var(--text-highlight); 
+            border-radius: 50%; width: 50px; height: 50px; 
+            cursor: pointer; z-index: 1000; color: var(--text-highlight); 
+            display: flex; align-items: center; justify-content: center; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 3rem 1.5rem;
+            border-radius: 30px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 450px;
+            width: 100%;
+            z-index: 10;
+            position: relative;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: background 0.5s ease;
+        }
+
+        h1 { font-family: 'Great Vibes', cursive; color: var(--text-highlight); font-size: 3.2rem; margin-bottom: 0.5rem; line-height: 1.2; }
+        .sub-text { font-size: 1.1rem; margin-bottom: 2rem; font-style: italic; font-family: 'Poppins', sans-serif; opacity: 0.9; }
+
+        .btn-container { 
+            display: flex; 
+            justify-content: center; 
+            gap: 20px; 
+            margin-top: 30px; 
+            position: relative; 
+            z-index: 20;
+            min-height: 80px;
+        }
+        
+        .btn { 
+            padding: 18px 32px; 
+            border: none; 
+            border-radius: 50px; 
+            font-family: 'Poppins', sans-serif; 
+            font-weight: 700; 
+            cursor: pointer; 
+            transition: transform 0.2s, background 0.3s; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            font-size: 1rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+        .btn-yes { background: var(--btn-yes-bg); color: #fff; box-shadow: 0 10px 20px var(--btn-yes-shadow); }
+        .btn-no { background: var(--btn-no-bg); color: var(--btn-no-text); }
+
+        /* Enhanced Rose Animation */
+        .rose-box { position: relative; width: 140px; height: 220px; margin: 0 auto 20px; display: flex; justify-content: center; }
+        .rose-stem { position: absolute; bottom: 20px; width: 6px; height: 0; background: var(--stem-color); border-radius: 10px; transition: height 1.5s ease-out; z-index: 1; }
+        .rose-flower { position: absolute; top: 0; width: 80px; height: 80px; transform: scale(0); transition: 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 2; }
+        
+        .rose-petal { 
+            position: absolute; 
+            width: 100%; height: 100%; 
+            background: radial-gradient(circle at center, var(--rose-light), var(--rose-deep)); 
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; 
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.2);
+            transform-origin: bottom center;
+        }
+        
+        .bloomed .rose-stem { height: 160px; }
+        .bloomed .rose-flower { transform: scale(1); }
+
+        /* Success Page */
+        .success-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--overlay-bg);
+            z-index: 500;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            padding: 60px 20px;
+            overflow-y: auto;
+            transition: background 0.5s ease;
+        }
+        .success-overlay.visible { display: flex; }
+        .success-content { max-width: 500px; text-align: center; }
+        .success-content h2 { font-family: 'Great Vibes', cursive; font-size: 4rem; color: var(--text-highlight); margin-bottom: 1rem; }
+        .success-content p { font-size: 1.3rem; line-height: 1.6; margin-bottom: 2rem; font-weight: 600; }
+
+        /* Note Modal */
+        .note-modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-color);
+            z-index: 1000;
+            display: none;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .note-modal.open { display: block; }
+        .note-paper {
+            max-width: 600px;
+            margin: 40px auto;
+            background: var(--note-bg);
+            padding: 4rem 1.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            background-image: linear-gradient(var(--note-lines) 2px, transparent 2px);
+            background-size: 100% 3rem;
+            line-height: 3rem;
+            border: 1px solid var(--note-lines);
+        }
+        .note-lyrics { font-size: 1.3rem; color: var(--poem-text); padding-left: 50px; font-style: italic; font-weight: 700; }
+        
+        .mood-selector { margin-bottom: 20px; padding: 15px; background: var(--mood-bg); border-radius: 20px; width: 100%; transition: background 0.5s ease; }
+        .mood-btns { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+        .mood-btn { 
+            background: #fff; border: 2px solid var(--text-highlight); 
+            padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; 
+            cursor: pointer; font-family: 'Poppins'; font-weight: 600; color: var(--text-highlight);
+        }
+        .mood-btn.active { background: var(--text-highlight); color: #fff; }
+
+        .scroll-hint { 
+            margin-top: 20px; opacity: 0.6; display: flex; flex-direction: column; align-items: center; gap: 5px; 
+            animation: bounce 2s infinite; font-size: 0.8rem; font-family: 'Poppins';
+        }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-10px);} 60% {transform: translateY(-5px);} }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 2.6rem; }
+            .btn { padding: 15px 25px; font-size: 0.9rem; }
+            .note-paper { padding: 3rem 1rem; }
+            .note-lyrics { font-size: 1.15rem; padding-left: 35px; }
+        }
+    </style>
+</head>
+<body id="bodyTag">
+
+    <button class="theme-toggle" id="themeToggle"><i data-lucide="moon"></i></button>
+    <div class="background-hearts" id="bgHearts"></div>
+
+    <!-- Main Question Section -->
+    <div class="card" id="mainCard">
+        <h1>For Unnima... 💕</h1>
+        <p class="sub-text">Every moment with you is a gift I cherish.</p>
+
+        <div class="mood-selector">
+            <p style="font-size: 0.8rem; font-weight: 800; text-transform: uppercase; color: var(--text-highlight);">How are you feeling?</p>
+            <div class="mood-btns">
+                <button class="mood-btn active" onclick="setMood('romantic', this)">🌹 Romantic</button>
+                <button class="mood-btn" onclick="setMood('missing', this)">☁️ Missing</button>
+                <button class="mood-btn" onclick="setMood('happy', this)">✨ Happy</button>
+                <button class="mood-btn" onclick="setMood('sleepy', this)">🌙 Sleepy</button>
+            </div>
+        </div>
+
+        <p style="font-weight: 800; font-size: 1.4rem; margin: 20px 0; line-height: 1.4; color: var(--text-main);">Unnima, will you be my Valentine? 🌹</p>
+        
+        <div class="btn-container">
+            <button class="btn btn-yes" onclick="handleYes()">YES 💖</button>
+            <button class="btn btn-no" id="noBtn" onmouseover="moveButton()" onclick="moveButton()">NO 😈</button>
+        </div>
+
+        <div class="scroll-hint">
+            <span>Scroll for more</span>
+            <i data-lucide="chevron-down"></i>
+        </div>
+    </div>
+
+    <!-- Success Screen -->
+    <div class="success-overlay" id="successOverlay">
+        <div class="success-content">
+            <div class="rose-box" id="roseBox">
+                <div class="rose-stem"></div>
+                <div class="rose-flower">
+                    <div class="rose-petal" style="transform: rotate(0deg) scale(1);"></div>
+                    <div class="rose-petal" style="transform: rotate(45deg) scale(0.9);"></div>
+                    <div class="rose-petal" style="transform: rotate(-45deg) scale(0.9);"></div>
+                    <div class="rose-petal" style="transform: rotate(90deg) scale(0.85);"></div>
+                    <div class="rose-petal" style="transform: rotate(-90deg) scale(0.85);"></div>
+                    <div class="rose-petal" style="transform: rotate(180deg) scale(0.8); background: var(--rose-deep);"></div>
+                </div>
+            </div>
+
+            <h2>I knew it!</h2>
+            <p>
+                My Dearest Unnima, you are the most beautiful soul I have ever known. 
+                Distance doesn't matter when you have a heart as big as yours.
+            </p>
+
+            <div style="display: flex; flex-direction: column; gap: 15px; align-items: center; padding-bottom: 50px;">
+                <a href="https://photos.app.goo.gl/m2a4ab9NLLWqdu5p7" target="_blank" style="text-decoration: none; color: #fff; font-weight: 700; background: var(--text-highlight); padding: 15px 30px; border-radius: 50px; display: inline-flex; align-items: center; gap: 10px; font-family: 'Poppins';">
+                    <i data-lucide="camera"></i> Our Memory Gallery
+                </a>
+
+                <button class="btn btn-yes" onclick="openNote()">Read My Heart 🎵</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- The Letter Modal -->
+    <div class="note-modal" id="noteModal">
+        <div class="note-paper">
+            <div class="note-lyrics">
+                <p>Valentine’s is coming closer,</p>
+                <p>And I won’t be by your side,</p>
+                <p>But every beat inside my chest</p>
+                <p>Still whispers that you’re mine.</p>
+                <br>
+                <p>Through the quiet, through the doubt,</p>
+                <p>Through whatever we're going through.</p>
+                <p>I’m here, even when it’s hard to stay,</p>
+                <p>Believing we’ll be okay… someday.</p>
+                <br>
+                <p>You're the melody in the chaos,</p>
+                <p>The light when paths are dim,</p>
+                <p>And no matter where the road goes,</p>
+                <p>It always leads back to him... (me!)</p>
+                <br>
+                <p>I count the days until we meet,</p>
+                <p>In every sunset, every street,</p>
+                <p>You’re the dream I never want to leave,</p>
+                <p>The only magic I truly believe.</p>
+                <br>
+                <p>Stay with me, Unnima ❤️</p>
+            </div>
+            <button class="btn btn-yes" style="margin: 40px auto; display: block;" onclick="closeNote()">Back to Us</button>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        function moveButton() {
+            const btn = document.getElementById('noBtn');
+            const x = Math.random() * (window.innerWidth - btn.offsetWidth - 40) + 20;
+            const y = Math.random() * (window.innerHeight - btn.offsetHeight - 40) + 20;
+            btn.style.position = 'fixed';
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
+            btn.style.zIndex = '1000';
+            btn.innerText = "Nice try! 😉";
+        }
+
+        function handleYes() {
+            document.getElementById('mainCard').style.display = 'none';
+            const overlay = document.getElementById('successOverlay');
+            overlay.style.display = 'flex';
+            setTimeout(() => {
+                overlay.classList.add('visible');
+                document.getElementById('roseBox').classList.add('bloomed');
+                createConfetti();
+            }, 50);
+        }
+
+        function openNote() {
+            document.getElementById('noteModal').style.display = 'block';
+            document.getElementById('noteModal').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeNote() {
+            document.getElementById('noteModal').classList.remove('open');
+            setTimeout(() => {
+                document.getElementById('noteModal').style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }, 300);
+        }
+
+        function setMood(mood, btn) {
+            // Remove existing mood classes
+            const body = document.body;
+            body.classList.remove('mood-romantic', 'mood-missing', 'mood-happy', 'mood-sleepy');
+            
+            // Add new mood class
+            if (mood !== 'romantic') {
+                body.classList.add('mood-' + mood);
+            }
+            
+            // Update button active state
+            document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            // Regenerate icons/background hearts for new mood
+            createHearts(mood);
+        }
+
+        function createHearts(mood = 'romantic') {
+            const container = document.getElementById('bgHearts');
+            container.innerHTML = '';
+            const symbols = { romantic: '❤', missing: '☁', happy: '✨', sleepy: '⭐' };
+            const symbol = symbols[mood] || '❤';
+            for(let i=0; i<15; i++) {
+                const h = document.createElement('div');
+                h.className = 'bg-heart';
+                h.innerText = symbol;
+                h.style.left = Math.random() * 100 + 'vw';
+                h.style.animationDuration = (Math.random() * 5 + 8) + 's';
+                h.style.animationDelay = Math.random() * 5 + 's';
+                h.style.fontSize = (Math.random() * 20 + 20) + 'px';
+                container.appendChild(h);
+            }
+        }
+
+        function createConfetti() {
+            for(let i=0; i<60; i++) {
+                const c = document.createElement('div');
+                c.style.cssText = `position:fixed; width:8px; height:8px; background:#ff4d88; top:-10px; left:${Math.random()*100}vw; border-radius:50%; z-index:2000;`;
+                document.body.appendChild(c);
+                c.animate([{ top: '-10px' }, { top: '100vh' }], { duration: Math.random() * 2000 + 2000 });
+                setTimeout(() => c.remove(), 4000);
+            }
+        }
+
+        // Fixed Theme Toggle Logic
+        const themeBtn = document.getElementById('themeToggle');
+        themeBtn.onclick = () => {
+            const body = document.body;
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            body.setAttribute('data-theme', newTheme);
+            themeBtn.innerHTML = `<i data-lucide="${newTheme === 'dark' ? 'sun' : 'moon'}"></i>`;
+            lucide.createIcons();
+        };
+
+        createHearts();
+    </script>
+</body>
+</html>  
